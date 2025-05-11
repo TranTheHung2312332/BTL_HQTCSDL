@@ -58,6 +58,19 @@ BEGIN
 	UPDATE Service
 	SET updated_at = GETDATE()
 	FROM Service s
+	INNER JOIN inserted i ON s.bill_id = i.bill_id AND s.service_id = i.service_id;
+END;
+GO
+
+
+CREATE TRIGGER trg_UpdateTimestamp_Used_service
+ON Used_service
+AFTER UPDATE
+AS
+BEGIN
+	UPDATE Used_service
+	SET updated_at = GETDATE()
+	FROM Used_service u
 	INNER JOIN inserted i ON s.id = i.id;
 END;
 GO
@@ -100,26 +113,6 @@ BEGIN
     AND status = '0'; -- chỉ cập nhật nếu đang là trống
 END;
 GO
-
-
--- Tự động cập nhật trạng thái phòng là "trống" khi trả phòng 
-CREATE TRIGGER trg_UpdateRoomStatusAfterCheckout
-ON Reservation
-AFTER UPDATE
-AS
-BEGIN
-    -- Cập nhật trạng thái phòng về '0' (trống)
-    -- nếu checkout không null và ngày checkout <= hôm nay và trạng thái đã duyệt (status = '1')
-    UPDATE Room
-    SET status = '0', updated_at = GETDATE()
-    FROM Room r
-    JOIN inserted i ON r.id = i.room_id
-    WHERE 
-        i.checkout IS NOT NULL
-        AND i.checkout <= CAST(GETDATE() AS DATE)
-        AND i.status = '1';  -- chỉ khi đã duyệt
-END;
-
 
 -- Không cho xóa nhân viên nếu đang liên kết với hóa đơn
 CREATE TRIGGER trg_PreventEmployeeDelete
