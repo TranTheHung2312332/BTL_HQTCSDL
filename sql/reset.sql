@@ -1,0 +1,17 @@
+DELETE FROM Used_service;
+DELETE FROM Booked_room;
+DELETE FROM Service;
+DELETE FROM Bill;
+DELETE FROM Reservation;
+DELETE FROM Room;
+DELETE FROM Customer;
+DELETE FROM Employee;
+DELETE FROM Person;
+
+DBCC CHECKIDENT ('Person', RESEED, 0);
+DBCC CHECKIDENT ('Service', RESEED, 0);
+DBCC CHECKIDENT ('Reservation', RESEED, 0);
+DBCC CHECKIDENT ('Bill', RESEED, 0);
+DBCC CHECKIDENT ('Employee', RESEED, 0);
+DBCC CHECKIDENT ('Customer', RESEED, 0);
+
