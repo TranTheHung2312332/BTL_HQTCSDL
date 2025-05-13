@@ -7,6 +7,7 @@ DELETE FROM Room;
 DELETE FROM Customer;
 DELETE FROM Employee;
 DELETE FROM Person;
+DELETE FROM DailyRoomStat;
 
 DBCC CHECKIDENT ('Person', RESEED, 0);
 DBCC CHECKIDENT ('Service', RESEED, 0);
