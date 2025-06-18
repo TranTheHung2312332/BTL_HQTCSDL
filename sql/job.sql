@@ -56,8 +56,9 @@ BEGIN
         INSERT INTO DailyRoomStat (log_date, booked_rooms)
         SELECT @d, COUNT(*)
         FROM Reservation
-        WHERE status = '1' AND checkin <= @d AND checkout >= @d;
+        WHERE CAST(created_at AS DATE) = @d;
     END
 END
 GO
+
 
